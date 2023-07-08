@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -10,7 +11,10 @@ class CategoryController extends Controller
 {
     public function showHomeWithCategories()
     {
-        $categories = $this->getAllCategories();
+        $categories = $this->getAllCategories()->filter(function ($category) {
+            return $category->products()->exists();
+        });
+
         return view('home', compact('categories'));
     }
 
@@ -35,18 +39,23 @@ class CategoryController extends Controller
     public function saveCategory(Request $request){
         $category = new Category($request->all());
         $category->save();
-        return response()->json(['category' => $category], 200);
+        return response()->json(['Category' => $category], 201);
     }
 
-    public function updateCategory(Request $request){
-        $category = Category::find($request->id);
+
+    public function updateCategory(Category $category , Request $request){
         $category->update($request->all());
+        return response()->json(['Category' => $category], 201);
+    }
+
+    public function deleteCategory(Category $category){
+        $category->delete();
+        return response()->json([], 204);
+    }
+
+    public function getCategory(Category $category){
         return response()->json(['category' => $category], 200);
     }
 
-    public function deleteCategory(Request $request){
-        $category = Category::find($request->id);
-        $category->delete();
-        return response()->json(['category' => $category], 200);
-    }
+
 }

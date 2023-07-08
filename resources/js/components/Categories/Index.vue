@@ -21,7 +21,7 @@
         </div>
 
         <section v-if="load_modal">
-            <Modal />
+            <Modal :category_data="category"/>
         </section>
     </div>
 </template>
@@ -43,6 +43,7 @@ export default {
             load: false,
             load_modal: false,
             modal: null,
+            category: null,
         };
     },
     created() {
@@ -54,6 +55,7 @@ export default {
         },
         async getCategories() {
             try {
+                this.load = false;
                 const response = await axios.get("/api/Categories/GetAllCategories");
                 this.categories = response.data.categories;
                 this.load = true;
@@ -76,9 +78,19 @@ export default {
                 const modal = document.getElementById("category_modal");
                 modal.addEventListener("hidden.bs.modal", () => {
                     this.load_modal = false;
-
+                    this.category = null;
                 });
             }, 200);
+        },
+        closeModal() {
+            this.modal.hide();
+            this.getCategories();
+        },
+
+        editCategory(category) {
+            this.category = category;
+            console.log(this.category);
+            this.openModal();
         },
     },
 };

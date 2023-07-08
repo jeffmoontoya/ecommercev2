@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h3>Products</h3>
+            <h3>Productos</h3>
             <button @click="openModal" class="btn btn-primary">
                 Agregar Producto
             </button>
@@ -21,7 +21,7 @@
         </div>
 
         <section v-if="load_modal">
-            <Modal />
+            <Modal :product_data="product" />
         </section>
     </div>
 </template>
@@ -33,6 +33,7 @@ import Modal from "./ProductModal.vue";
 
 
 export default {
+
     components: {
         TableComponent,
         Modal,
@@ -44,6 +45,7 @@ export default {
             load: false,
             load_modal: false,
             modal: null,
+            product: null,
         };
     },
     created() {
@@ -58,14 +60,14 @@ export default {
         async getProducts() {
             try {
                 this.load = false;
-                const response = await axios.get("/api/Products/GetAllProducts/");
-                this.products = response.data.products;
+                const { data } = await axios.get("/api/Products/GetAllProducts");
+                this.products = data.products;
                 this.load = true;
             } catch (error) {
                 console.log(error);
             }
         },
-        // Abrir Modal
+
         openModal() {
             this.load_modal = true;
             setTimeout(() => {
@@ -80,13 +82,20 @@ export default {
                 const modal = document.getElementById("product_modal");
                 modal.addEventListener("hidden.bs.modal", () => {
                     this.load_modal = false;
-
+                    this.product = null;
                 });
             }, 200);
         },
         CloseModal() {
             this.modal.hide();
-            this.getProducts();
+            this.modal._element.addEventListener("hidden.bs.modal", () => {
+                this.getProducts();
+            });
+        },
+
+        editProduct(product) {
+            this.product = product;
+            this.openModal();
         },
     },
 };

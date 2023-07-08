@@ -17,7 +17,7 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<x-navbar/>
+<x-navbar />
 <body>
     <div id="app">
         {{ $slot }}

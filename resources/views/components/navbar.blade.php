@@ -33,9 +33,12 @@
 
                 <!-- Elemento del carrito de compras -->
                 <li class="nav-item mx-2">
-                    <a class="nav-link" href={{ route('cart.show') }}>Carrito de compras</a>
-                </li>
+                    <a class="nav-link" href="{{ route('cart.show') }}">
+                        <img src="{{ asset('icons/shopping.png') }}" alt="Carrito">
+                        <p class="d-inline">Carrito</p>
+                    </a>
 
+                </li>
                 <!-- Elementos de inicio de sesión y autenticación -->
                 @guest
                     @if (Route::has('login'))
@@ -52,8 +55,11 @@
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             {{-- BOTON ADMINISTRAR --}}
-                            <a class="dropdown-item" href="{{ route('admin.users') }}">
-                                {{ __('Administrar') }}
+                            @role('admin')
+                                <a class="dropdown-item" href="{{ route('admin.users') }}">
+                                    {{ __('Administrar') }}
+                                @endrole
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
@@ -74,4 +80,5 @@
             </ul>
         </div>
     </div>
+
 </nav>

@@ -21,7 +21,7 @@
         </div>
 
         <section v-if="load_modal">
-            <Modal />
+            <Modal :user_data="user"/>
         </section>
     </div>
 </template>
@@ -43,6 +43,7 @@ export default {
             load: false,
             load_modal: false,
             modal: null,
+            user: null,
         };
     },
     created() {
@@ -56,7 +57,7 @@ export default {
             try {
                 this.load = false;
                 const response = await axios.get(
-                    "/api/Users/GetAllUsers/"
+                    '/api/Users/GetAllUsers'
                 );
                 this.users = response.data.users;
                 this.load = true;
@@ -79,10 +80,21 @@ export default {
                 const modal = document.getElementById("user_modal");
                 modal.addEventListener("hidden.bs.modal", () => {
                     this.load_modal = false;
-
+                    this.user = null;
                 });
             }, 200);
         },
+        closeModal() {
+            this.modal.hide();
+            this.getUsers();
+        },
+
+        editUser(user) {
+            this.user = user;
+            console.log(this.user);
+            this.openModal();
+        },
     },
 };
+
 </script>

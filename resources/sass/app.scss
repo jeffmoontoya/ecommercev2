@@ -10,17 +10,13 @@
 // vue-select
 @import 'vue-select/dist/vue-select.css';
 
+@import '~/datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+
 body {
     background-color: #EBEBEB;
 }
 
-#app {
-    background-color: #EBEBEB;
-    padding-top: 80px;
-    padding-bottom: 80px;
-    padding-right: 130px;
-    padding-left: 130px;
-  }
+
 
 
 

@@ -1,4 +1,5 @@
 <x-app>
-    <h1>Carrito de compras</h1>
-
+    <div class="container my-4">
+        <cart-list/>
+    </div>
 </x-app>

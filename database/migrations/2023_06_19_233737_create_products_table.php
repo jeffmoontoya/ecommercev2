@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id'); // <-- This is a foreign key
-            $table->string('product_image');
+            $table->string('product_image')->nullable();
             $table->string('product_name', 100);
             $table->text('product_description');
             $table->decimal('product_price', 12, 2);

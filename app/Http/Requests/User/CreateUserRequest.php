@@ -19,7 +19,7 @@ class CreateUserRequest extends FormRequest
             'lastname' => ['required' , 'string', 'max:100'],
             'username' => ['required' , 'string', 'min:6', 'max:15', 'unique:users,username'],
             'email' => ['required' , 'string', 'email', 'max:100', 'unique:users,email'],
-            'password' => ['required' , 'string', 'min:8', 'max:15', 'confirmed'],
+            'password' => ['required' , 'string', 'min:8', 'max:15'],
         ];
     }
 
@@ -46,7 +46,6 @@ class CreateUserRequest extends FormRequest
         'password.string' => 'El campo contraseña debe ser una cadena de texto.',
         'password.min' => 'El campo contraseña debe tener al menos 8 caracteres.',
         'password.max' => 'El campo contraseña no debe exceder los 15 caracteres.',
-        'password.confirmed' => 'La contraseña no coincide.',
     ];
 }
 }
